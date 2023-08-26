@@ -6,6 +6,8 @@
 
 [LLAMA 2, OPENAI GPT] – SELECT A MODEL & {FINETUNE} IT USING IBM CLOUD GPU {WATSON}
 
+[Use Qdrant for vector embeddings]
+
 Dataset: - https://www.kaggle.com/datasets/meetnagadia/district-wise-mental-health-patients-20212022
 
 -   [x] Integrate the WhatsApp API to enable seamless message communication between users and the chatbot.
