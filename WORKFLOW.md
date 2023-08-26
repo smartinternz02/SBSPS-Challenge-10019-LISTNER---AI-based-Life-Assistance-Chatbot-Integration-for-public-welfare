@@ -65,6 +65,10 @@ git clone https://github.com/smartinternz02/SBSPS-Challenge-10019-LISTNER---AI-b
 pip install -r requirements.txt
 ```
 
+#### Set the environment variables
+
+Rename the .env.example file to .env and set the environment variables.
+
 #### Run the app
 
 ```bash
