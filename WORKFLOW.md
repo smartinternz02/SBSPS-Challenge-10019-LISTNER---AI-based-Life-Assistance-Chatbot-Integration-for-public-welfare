@@ -41,16 +41,20 @@ You can run the project by either using the docker image or by cloning the repos
 
 ### Using Docker:
 
-#### Pull the docker image
+#### Build the docker image
 
 ```bash
-docker pull devanshu17/listner:latest
+docker build -t listenai .
 ```
+
+#### Set the environment variables
+
+Rename the .env.example file to .env and set the environment variables.
 
 #### Run the docker image
 
 ```bash
-docker run -it -p 5000:5000 devanshu17/listner:latest
+docker run -it -p 5000:5000 listenai:latest
 ```
 
 ### Locally:
