@@ -2,8 +2,10 @@ import openai
 import re
 import json
 import requests
+from backend.config import Config
+from dotenv import load_dotenv
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = os.getenv("OPENAI_KEY")
 
 
 class GPT:
