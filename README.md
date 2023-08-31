@@ -26,6 +26,21 @@ Chatbot Development: Design and develop an AI-powered chatbot capable of providi
 **D.** Implement sentiment analysis API to extract emotional insights from conversations, enabling the chatbot to provide empathetic and personalized support.
 **E.** Utilize Twilio API or a similar solution for sending SMS or phone notifications to support staff in high-risk situations.
 
+### Main Features:
+
+-   **A.** ListenAI will be able to provide assistance and support in multiple areas 24/7.
+-   **B.** ListenAI will be able to answer in multiple languages.
+-   **C.** ListenAI will be able to provide voice assistance via speech recognition.
+-   **D.** ListenAI will be able to detect the user's emotions via sentiment analysis and provide personalized support.
+-   **E.** ListenAI will be able to provide emergency contacts and support staff in high-risk situations.
+-   **F.** Users will be able to access ListenAI via WhatsApp.
+-   **G.** Users will be able to choose the AI model they want to interact with - GPT-3 or LLAMA2 (fine-tuned).
+
+### Future Scope:
+
+-   **A.** ListenAI will be able to provide set up reminders for users and maintain a timeline of their activities.
+-   **B.** ListenAI will be able to speak to users.
+
 ### Team Members:
 
 -   [Devanshu Mahapatra](https://github.com/Devanshu-17/)
