@@ -1,4 +1,6 @@
 import re
+
+from regex import P
 from flask import Blueprint, request, render_template
 from backend.config import Config
 from qdrant_client import QdrantClient
@@ -7,6 +9,8 @@ import torch
 import whisper
 from datetime import datetime
 from dotenv import load_dotenv
+import cohere
+
 
 api = Blueprint(
     "api",
@@ -15,6 +19,10 @@ api = Blueprint(
     static_folder="../frontend/static",
     static_url_path="/static",
 )
+
+cohere_api_key = 'hGtuxABqJ2BPmCZTvd6MMTV1IDmiE9DcTecUyN0F'  # Replace with your actual Cohere API key
+cohere_client = cohere.Client(cohere_api_key)
+
 
 
 @api.route("/", methods=["GET"])
@@ -58,7 +66,25 @@ def get_llama_response(prompt: str, max_tokens: int = 2048, stop: list = [], ech
     return response
 
 
+from cohere.responses.classify import Example
 
+examples = [
+    Example("I'm feeling really down today", "negative"),
+    Example("I'm struggling to find motivation", "negative"),
+    Example("I've been feeling anxious lately", "negative"),
+    Example("I'm finding it hard to sleep at night", "negative"),
+    Example("I'm feeling overwhelmed with stress", "negative"),
+    Example("I practiced mindfulness and felt better", "positive"),
+    Example("I talked to a friend and it helped", "positive"),
+    Example("I enjoyed spending time in nature", "positive"),
+    Example("I accomplished a small goal today", "positive"),
+    Example("I'm grateful for the support I have", "positive"),
+    Example("I'm taking things one step at a time", "neutral"),
+    Example("I'm working on managing my emotions", "neutral"),
+    Example("I'm exploring different coping strategies", "neutral"),
+    Example("I'm learning to prioritize self-care", "neutral"),
+    Example("I'm seeking professional help to improve", "neutral"),
+]
 
 @api.route("/response")
 def response():
@@ -80,9 +106,29 @@ def response():
         messages.append({"role": "user", "content": question})
         messages.append({"role": "assistant", "content": answer})
 
+    # Get the user's message
+    user_message = query
 
-    for message in messages:
-        print(message, flush=True)
+ # Perform sentiment analysis using Cohere
+    sentiment_response = cohere_client.classify(inputs=[user_message], examples=examples)
+    print("Sentiment Response:", sentiment_response)
+
+    # Access sentiment prediction and confidence for the first input
+    classification_result = sentiment_response[0]  # Access the first element in the list
+    print("Classification Result:", classification_result)
+    sentiment_prediction = classification_result.prediction.split()[0]  # Extract the first word
+    print("Sentiment Prediction:", sentiment_prediction)
+    sentiment_confidence = classification_result.confidence
+    print("Sentiment Confidence:", sentiment_confidence)
+
+
+    # Determine sentiment label based on prediction
+    if sentiment_prediction == "positive":
+        sentiment_label = "positive"
+    elif sentiment_prediction == "negative":
+        sentiment_label = "negative"
+    else:
+        sentiment_label = "neutral"
 
     # Check if the selected model is "llama2" and get the response accordingly
     if model == "llama2":
@@ -90,7 +136,15 @@ def response():
     else:
         answer = get_response(query, messages)
 
-    return answer
+    # Create a popup message based on sentiment
+    popup_message = f"Sentiment of user message is detected as {sentiment_label}. As a result, ListenAI will respond appropriately."
+
+    return {
+        "answer": answer,
+        "popup_message": popup_message
+    }
+
+
 
 
 @api.route("/voice", methods=["POST"])

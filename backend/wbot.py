@@ -4,6 +4,7 @@ import json
 import requests
 from backend.config import Config
 from dotenv import load_dotenv
+import os
 
 OPENAI_API_KEY = os.getenv("OPENAI_KEY")
 

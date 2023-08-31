@@ -226,8 +226,12 @@
                     questions: localStorage.questions,
                     answers: localStorage.answers,
                 }).done(function (data) {
-                    const msgText = data
+                    const msgText = data.answer;
+                    const popupMessage = data.popup_message; // Get the popup message
                     appendMessage(BOT_NAME, BOT_IMG, 'left', msgText)
+                    // Display the popup message
+                    alert(popupMessage); // You might want to use a better UI mechanism for displaying the popup
+
                     localStorage.answers = localStorage.answers + data + ' | '
                     loading_send.setAttribute('hidden', 'hidden')
                     console.log('answer from ' + selectedModel + ' received')
@@ -312,5 +316,22 @@
                 console.log('getUserMedia not supported on your browser!')
             }
         </script>
+        <div id="popup-notification" class="popup-notification">
+         <span id="popup-message"></span>
+        </div>
+        <style>
+            .popup-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+</style>
+
     </body>
 </html>
